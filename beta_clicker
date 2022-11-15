@@ -1,0 +1,94 @@
+import pygame
+pygame.init()
+
+background_img = pygame.image.load('bg_img')
+
+regent_img = pygame.image.load('bg_img')
+
+
+'''Colors'''
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (155, 155, 155)
+LIGHT_GREEN = (0, 255, 0)
+DARK_BLUE = (51, 90, 114)
+
+class MainCookie:
+    def _init_(self,x, y):
+        self.x = x
+        self.y = y
+        self.length = 250
+        self.height = 250
+
+        self.animation_state = 0
+
+        def draw(self):
+            if self.animation_state > 0:
+                regent_img.png_scaled = pygame.transform.scale(regent_img, ( int(0.9*self.length),int(0.9*self.height)  ))
+                window.blit, (regent_img.png_scaled.get_rect( center =( int(self.x + self.length/2),int(self.y + self.height/2)  ) ))
+                self.animation_state -= 1
+            else:
+                window.blit(regent_img, (regent_img.get_rect( center=( int(self.x + self.length/2), int(self.y + self.height/2)  ) )))
+            def collidepoint(self, mouse_pos):
+                return pygame.Rect(self.x, self.y, self.length, self.height).collidepoint(mouse_pos)
+
+class ScoreDisplay():
+    def _init_(self, x, y):
+        self.x = x
+        self.y = y
+        self.length = 100
+        self.height = 100
+
+    def draw(self):
+        font = pygame.font.Font('Font/ChelseaMarket-Regular.ttf', 24)
+        small_font = pygame.font.Font('Font/ChelseaMarket-Regular.ttf', 24)
+
+        SCORE = font.render('{} regentbucks'.format( int(user.score) ), True, WHITE)
+        CPS = font.render('per second: {}'.format( int(user.cps) ),True, WHITE)
+        window.blit(SCORE, (SCORE.get_rect(center=( int(self.x + self.length/2), int(self.y + self.height/2)  ) )))
+        window.blit(CPS, (CPS.get_rect(center=( int(self.x + self.length/2), int(self.y + self.height/2)  ) )))
+        
+class Player:
+    def _init_(self):
+        self.score = 0
+        self.click_multiplier = 1
+        self.cps = 0
+        
+window_length = 1000
+window_height = 600
+window = pygame.display.set_mode((window_length, window_height))
+
+regent = regent_img(100, 100)
+score_display = ScoreDisplay(100, 0)
+user = Player()
+
+
+def draw():
+    '''Draw background'''
+    window.blit(background_img, (0, 0))
+    
+    '''Draw Regent And Score Display'''
+    regent.draw()
+    score_display.draw()
+
+    pygame.display.update()
+
+
+
+main = True
+while main == True:
+
+    for event in pygame.get():
+        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+            if regent.collidepoint(mouse_pos):
+                user.score += 1
+                regent.animation_state = 1
+
+        if event.type == pygame.QUIT:
+            main = False
+
+    draw()
+
+pygame.quit()
